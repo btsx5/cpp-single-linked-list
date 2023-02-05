@@ -209,6 +209,7 @@ public:
     }
 
     Iterator InsertAfter(ConstIterator pos, const Type& value) {
+        assert(node_ != nullptr);
         if (pos == before_begin()) {
             PushFront(value);
             return begin();
@@ -220,6 +221,9 @@ public:
     }
 
     void PopFront() noexcept {
+        if (IsEmpty()) {
+            return;
+        }
         Node* to_delete = this->begin().node_;
         *this->before_begin().node_ = *this->begin().node_ ;
         delete to_delete;
@@ -227,6 +231,7 @@ public:
     }
 
     Iterator EraseAfter(ConstIterator pos) noexcept {
+        assert(node_ != nullptr);
         Node* to_delete = pos.node_->next_node;
         if (size_==1) {
             delete to_delete;
